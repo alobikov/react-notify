@@ -29,6 +29,12 @@ export const GlobalProvider = ({ children }) => {
       payload: { sessionToken: sessionToken, objectId: objectId },
     });
   }
+  function navigateTo(page) {
+    dispatch({
+      type: 'NAVIGATE',
+      payload: page
+    })
+  }
 
   return (
     <GlobalContext.Provider
@@ -37,6 +43,7 @@ export const GlobalProvider = ({ children }) => {
         page: state.page,
         signUpSubmitted,
         signUpSuccess,
+        navigateTo,
       }}
     >
       {children}

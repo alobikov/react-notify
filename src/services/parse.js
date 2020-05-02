@@ -17,21 +17,34 @@ export function parseInit() {
 // "updatedAt":"2020-04-30T11:06:44.869Z","objectId":"dNvDWX46ws"}
 export function userSignUp({ username, email, password }, callback) {
   const user = new Parse.User();
-  user.set("username", username);
   user.set("email", email);
   user.set("name", "web_user");
   user.set("confirmPassword", password);
   user.set("RunCount", 1);
-  // user.set('favorites', [1, 'a string']);
   user.set("password", password);
 
-  user
-    .signUp()
-    .then((user) => {
-      callback(user.toJSON());
-      console.log("User signed up: ", user.get("sessionToken"));
-    })
-    .catch((error) => {
-      callback(error.message);
-    });
+  if (username === null) {
+    console.log('parse userSignUp signIn tread')
+    user
+      .signIn()
+      .then((user) => {
+        callback(user.toJSON());
+        console.log("User logged in: ", user.get("sessionToken"));
+      })
+      .catch((error) => {
+        callback(error.message);
+      });
+
+  } else {
+    user.set("username", username);
+    user
+      .signUp()
+      .then((user) => {
+        callback(user.toJSON());
+        console.log("User signed up: ", user.get("sessionToken"));
+      })
+      .catch((error) => {
+        callback(error.message);
+      });
+  }
 }

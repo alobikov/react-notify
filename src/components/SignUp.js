@@ -58,6 +58,7 @@ export default function SignUp() {
     objectId: "",
     signupError: "",
   });
+
   const [isLoading, setLoading] = React.useState(false);
   const [isSignin, setSignin] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
@@ -90,6 +91,21 @@ export default function SignUp() {
   const toggleMode = () => {
     setSignin(!isSignin);
   };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    let username = values.username
+    if (isSignin) username = null;
+    console.log(values.username, values.email, values.password);
+    signUpSubmitted(   //* GlobalState function
+      username,        //* 'username = null' triggers parse SignIn
+      values.email,
+      values.password,
+      signUpCallBack
+    );
+    setLoading(true);
+  };
+
   const signUpCallBack = (result) => {
     if (typeof result == "string") {
       setValues({ ...values, signupError: result });
@@ -104,18 +120,8 @@ export default function SignUp() {
         objectId: objectId,
       });
       setLoading(false);
+      navigateTo('HOME');
     }
-  };
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(values.username, values.email, values.password);
-    signUpSubmitted(
-      values.username,
-      values.email,
-      values.password,
-      signUpCallBack
-    );
-    setLoading(true);
   };
 
   const handleChange = (prop) => (event) => {
@@ -162,7 +168,7 @@ export default function SignUp() {
   //! Global Context Pulls
   const { user } = useContext(GlobalContext);
   console.log(user);
-  const { signUpSubmitted } = useContext(GlobalContext);
+  const { signUpSubmitted, navigateTo } = useContext(GlobalContext);
 
   console.log("SignUp rendered!");
 
@@ -181,24 +187,24 @@ export default function SignUp() {
             {isSignin ? (
               <div></div>
             ) : (
-              <Grid item xs={12}>
-                <FormControl
-                  error={!!errors.usernameError}
-                  fullWidth
-                  className={clsx(classes.margin, classes.textField)}
-                  variant="outlined"
-                >
-                  <InputLabel htmlFor="username">Username</InputLabel>
-                  <OutlinedInput
-                    id="username"
-                    value={values.username}
-                    onChange={handleChange("username")}
-                    labelWidth={73}
-                  />
-                  <FormHelperText>{errors.usernameError}</FormHelperText>
-                </FormControl>
-              </Grid>
-            )}
+                <Grid item xs={12}>
+                  <FormControl
+                    error={!!errors.usernameError}
+                    fullWidth
+                    className={clsx(classes.margin, classes.textField)}
+                    variant="outlined"
+                  >
+                    <InputLabel htmlFor="username">Username</InputLabel>
+                    <OutlinedInput
+                      id="username"
+                      value={values.username}
+                      onChange={handleChange("username")}
+                      labelWidth={73}
+                    />
+                    <FormHelperText>{errors.usernameError}</FormHelperText>
+                  </FormControl>
+                </Grid>
+              )}
             <Grid item xs={12}>
               <FormControl
                 id="f-email"
@@ -242,8 +248,8 @@ export default function SignUp() {
                         {showPassword ? (
                           <Visibility />
                         ) : (
-                          <VisibilityOff />
-                        )}
+                            <VisibilityOff />
+                          )}
                       </IconButton>
                     </InputAdornment>
                   }
@@ -285,10 +291,10 @@ export default function SignUp() {
                   Don't have an account? Sign up
                 </Link>
               ) : (
-                <Link onClick={toggleMode} href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              )}
+                  <Link onClick={toggleMode} href="#" variant="body2">
+                    Already have an account? Sign in
+                  </Link>
+                )}
             </Grid>
           </Grid>
         </form>
