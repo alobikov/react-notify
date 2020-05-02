@@ -269,12 +269,11 @@ export default function SignUp() {
           </Grid>
           <Button
             disabled={
-              false
-              // !(
-              //   errors.usernameError === null &&
-              //   errors.emailError === null &&
-              //   errors.passwordError === null
-              // )
+              !(
+                errors.usernameError === null &&
+                errors.emailError === null &&
+                errors.passwordError === null
+              )
             }
             type="submit"
             fullWidth

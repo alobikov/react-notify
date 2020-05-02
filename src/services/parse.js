@@ -1,12 +1,13 @@
+import keys from '../constants/apikeys';
 const Parse = require("parse/node");
-console.log("parse.js");
+
 
 export function parseInit() {
+  console.log('parseInit() APP_ID: ' + keys.APP_ID)
   Parse.serverURL = "https://notifyme.back4app.io"; // This is your Server URL
   Parse.initialize(
-    "iCYTGvNAatQe64smIVqoOidyKKoPx4N0qq3zdH2o", // This is your Application ID
-    "hFVZ6Krhye8JsgfNw5LE6VejsUQka8Pd91eYt01L" // This is your Javascript key
-    // "lTkaAkYe0jKDFfFEpdWZmgs8jqQwBqwlQyDjKPBS" // This is your Master key (never use it in the frontend)
+    keys.APP_ID,
+    keys.JS_KEY,
   );
 }
 
@@ -24,7 +25,7 @@ export function userSignUp({ username, email, password }, callback) {
   user.set("password", password);
 
   if (username === null) {
-    console.log('parse userSignUp signIn tread')
+    console.log('parse userSignUp() signIn tread')
     user
       .signIn()
       .then((user) => {
@@ -36,6 +37,7 @@ export function userSignUp({ username, email, password }, callback) {
       });
 
   } else {
+    console.log('parse userSignUp() signUp tread')
     user.set("username", username);
     user
       .signUp()

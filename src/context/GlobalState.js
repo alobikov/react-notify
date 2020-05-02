@@ -3,8 +3,8 @@ import AppReducer from "./AppReducer";
 const initialState = {
   page: "SIGNUP",
   user: {
-    username: "test",
-    email: "email",
+    username: "",
+    email: "",
     password: "",
   },
 };

@@ -5,8 +5,9 @@ export default (state, action) => {
     case "SIGNUP_SUBMITTED":
       console.log("SIGNUP_SUBMITED action in AppReducer");
       console.log(action.payload);
-      console.log("calling initializeParse");
+      console.log("1: calling initializeParse()");
       initializeParse();
+      console.log("2: calling userSignUp()");
       userSignUp(action.payload, action.callback); // payload { username: "", email: "", password: "" }
       return {
         ...state,
